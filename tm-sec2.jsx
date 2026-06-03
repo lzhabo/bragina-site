@@ -48,75 +48,120 @@ function TMConcept({ images }) {
 
 }
 
-function TMRoute() {
-  const [locked, setLocked] = React.useState(true);
+function TMRoute({ images = {} }) {
+  const [open, setOpen] = React.useState(() => new Set());
+  const toggle = (i) => setOpen((prev) => {
+    const next = new Set(prev);
+    next.has(i) ? next.delete(i) : next.add(i);
+    return next;
+  });
 
   const items = [
-  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", secret: false },
-  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке маршрута.", secret: false },
-  { t: "Морские прогулки на комфортных лодках", d: "Тихие бухты и встречи с океаном.", secret: true },
-  { t: "Знакомство с флорой и фауной", d: "Дикая природа без барьеров и толпы.", secret: true },
-  { t: "Аутентичный опыт и культура", d: "Прикосновение к жизни местных, а не витрина для туристов.", secret: true },
-  { t: "Неочевидные маршруты", d: "Разработаны вместе с локальными экспертами.", secret: true }];
+  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.ep2 },
+  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.val4 },
+  { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.val1 },
+  { t: "Флора и фауна", d: "Дикая природа без барьеров и толпы.", img: images.ep3 },
+  { t: "Культура и люди", d: "Жизнь местных, а не витрина для туристов.", img: images.ep1 },
+  { t: "Неочевидные маршруты", d: "Составлены вместе с локальными экспертами.", img: images.final }];
 
+  const leftItems = items.slice(0, 3);
+  const rightItems = items.slice(3);
 
-  // map node coordinates on the 360x560 viewBox
-  const nodes = [
-  { x: 140, y: 60, label: "Старт", secret: false },
-  { x: 105, y: 180, label: "Точка II", secret: false },
-  { x: 240, y: 205, label: "?", secret: true },
-  { x: 200, y: 300, label: "?", secret: true },
-  { x: 150, y: 400, label: "?", secret: true },
-  { x: 100, y: 495, label: "?", secret: true }];
+  const stageRef = React.useRef(null);
+  const mapRef = React.useRef(null);
+  const cardRefs = React.useRef([]);
+  const [lines, setLines] = React.useState([]);
+  const [dim, setDim] = React.useState({ w: 0, h: 0 });
+
+  const compute = React.useCallback(() => {
+    const stage = stageRef.current, map = mapRef.current;
+    if (!stage || !map) return;
+    const sb = stage.getBoundingClientRect();
+    if (sb.width < 760) { setLines([]); setDim({ w: sb.width, h: sb.height }); return; }
+    const mb = map.getBoundingClientRect();
+    const cx = mb.left + mb.width / 2 - sb.left;
+    const cy = mb.top + mb.height / 2 - sb.top;
+    const ls = cardRefs.current.map((el) => {
+      if (!el) return null;
+      const b = el.getBoundingClientRect();
+      const cap = el.querySelector("figcaption");
+      const cb = cap ? cap.getBoundingClientRect() : b;
+      const isLeft = b.left + b.width / 2 < sb.left + sb.width / 2;
+      const x = (isLeft ? b.right : b.left) - sb.left;
+      const y = cb.top + cb.height / 2 - sb.top;
+      return { x, y, cx, cy };
+    }).filter(Boolean);
+    setDim({ w: sb.width, h: sb.height });
+    setLines(ls);
+  }, []);
+
+  React.useEffect(() => {
+    compute();
+    const ts = [setTimeout(compute, 120), setTimeout(compute, 340), setTimeout(compute, 640)];
+    window.addEventListener("resize", compute);
+    return () => {ts.forEach(clearTimeout);window.removeEventListener("resize", compute);};
+  }, [compute, open]);
+
+  const setCardRef = (i) => (el) => {cardRefs.current[i] = el;};
+
+  const renderCard = (it, idx) =>
+  <figure
+    className={"tm-rv-card" + (open.has(idx) ? " open" : "")}
+    key={idx}
+    ref={setCardRef(idx)}
+    onClick={() => toggle(idx)}>
+
+      <div className="ph" style={{ backgroundImage: `url(${it.img})` }} />
+      <figcaption>
+        <div className="tx">
+          <div className="t">{it.t}</div>
+          <div className="d">{it.d}</div>
+        </div>
+        <span className="ic" aria-hidden="true" />
+      </figcaption>
+    </figure>;
 
 
   return (
     <section className="tm-section tm-route" id="route">
       <div className="tm-wrap">
         <Reveal>
-          <div className="tm-sec-head">
+          <div className="tm-sec-head center">
             <span className="tm-block-tag">Маршрут</span>
-            <h2 className="tm-h1" style={{ marginTop: 14 }}>Маршрут открывается<br />по мере прохождения.</h2>
+            <p className="tm-rv-lead">Нажми на впечатление&nbsp;— и откроется кадр из прошлых путешествий.</p>
           </div>
         </Reveal>
 
-        <div className="tm-route-grid">
-          <Reveal y={28}>
-            <div className="tm-map-stage">
-              <LatAmMap nodes={nodes} locked={locked} />
+        <Reveal y={28}>
+          <div className="tm-rv-stage" ref={stageRef}>
+            <svg className="tm-conn" width={dim.w} height={dim.h} viewBox={`0 0 ${dim.w} ${dim.h}`} preserveAspectRatio="none" aria-hidden="true">
+              {lines.map((l, i) =>
+              <g key={i}>
+                  <line x1={l.x} y1={l.y} x2={l.cx} y2={l.cy} />
+                  <circle cx={l.x} cy={l.y} r="3" />
+                </g>
+              )}
+            </svg>
+
+            <div className="tm-rv-col left">
+              {leftItems.map((it, i) => renderCard(it, i))}
             </div>
-          </Reveal>
 
-          <Reveal delay={150} y={28}>
-            <div>
-              <div className={"tm-route-list" + (locked ? " locked" : "")}>
-                {items.map((it, i) =>
-                <div className={"tm-route-item" + (it.secret ? " secret" : "")} key={i}>
-                    <span className="n">{String(i + 1).padStart(2, "0")}</span>
-                    <div>
-                      <div className="t">{it.t}</div>
-                      <div className="d">{it.d}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="tm-unlock-bar">
-                <span className="txt">
-                  {locked ?
-                  "Ты можешь оставить план тайной — или разблокировать экспириенс целиком." :
-                  "Маршрут раскрыт. Но самое интересное всё равно случится на месте."}
-                </span>
-                <button className={"btn " + (locked ? "btn-primary" : "btn-ghost")} onClick={() => setLocked((v) => !v)}>
-                  {locked ? <>Разблокировать <span className="arr">→</span></> : "Скрыть снова"}
-                </button>
-              </div>
-
-              <div style={{ marginTop: 28 }}>
-                <a className="btn btn-ghost" href="#form">Запишите меня <span className="arr">→</span></a>
-              </div>
+            <div className="tm-rv-mapwrap" ref={mapRef}>
+              <LatAmMap />
             </div>
-          </Reveal>
+
+            <div className="tm-rv-col right">
+              {rightItems.map((it, i) => renderCard(it, i + 3))}
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="tm-rv-foot">
+          <p className="tm-map-cap">Латинская Америка — наш регион. Точные точки маршрута остаются сюрпризом до старта.</p>
+          <div className="tm-rv-actions">
+            <a className="btn btn-primary" href="#form">Я в теме <span className="arr">→</span></a>
+          </div>
         </div>
       </div>
     </section>);
@@ -138,14 +183,13 @@ function TMAncestors() {
           <Reveal>
             <div>
               <span className="tm-block-tag" style={{ marginBottom: 18 }}>Зачем это нужно</span>
-              <h2 className="tm-h1" style={{ marginTop: 14 }}>Путешествовать<br /><span className="gold-b">как наши предки.</span></h2>
+              <h2 className="tm-h2" style={{ marginTop: 14 }}>Сюрприз-трип&nbsp;— это возможность путешествовать <span className="gold-b">как наши предки.</span></h2>
             </div>
           </Reveal>
           <Reveal delay={180} y={28}>
             <div className="tm-story-card tm-narrative">
-              <p><b style={{ color: "var(--text)", fontWeight: 700 }}>Сюрприз-трип — это возможность путешествовать как наши предки.</b></p>
-              <p>Наши предки отправлялись в путь, не зная, что впереди. Сейчас у нас есть Google&nbsp;Maps и Mastercard.</p>
-              <p>Когда ты последний раз отправлялся в настоящее приключение? Пакуй чемодан&nbsp;— а я возьму на себя всё остальное.</p>
+              <p>Наши предки путешествовали, не зная, что впереди. Сейчас у нас есть Google&nbsp;Maps и Mastercard.</p>
+              <p>Когда был последний раз, когда ты отправился в приключение? Пакуй чемодан&nbsp;— а я возьму на себя всё остальное.</p>
             </div>
           </Reveal>
         </div>

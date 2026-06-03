@@ -48,18 +48,17 @@ function TMApp() {
       <TMForm />
       <div className="tm-divider" />
       <TMStory />
-      <TMConcept images={TM_IMAGES} />
       <div className="tm-divider" />
-      <TMRoute />
+      <TMRoute images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMAncestors />
       <div className="tm-divider" />
-      <TMEpisodes images={TM_IMAGES} />
-      <TMTestimonials images={TM_IMAGES} />
-      <TMWhoTravels images={TM_IMAGES} />
-      <div className="tm-divider" />
       <TMProcess />
       <TMPricing />
+      <div className="tm-divider" />
+      <TMWhoTravels images={TM_IMAGES} />
+      <div className="tm-divider" />
+      <TMTestimonials images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMAbout images={TM_IMAGES} />
       <TMFaq />

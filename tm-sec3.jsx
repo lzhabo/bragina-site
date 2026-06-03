@@ -40,9 +40,9 @@ function TMEpisodes({ images }) {
 
 function TMTestimonials({ images }) {
   const items = [
-  { q: "Мы сами бы ни за что не додумались поехать сюда. Это нереально круто.", nm: "Саша", rl: "Сезон I · 2026", av: images.av1, stars: 5 },
-  { q: "Каждое утро — как страница нового романа. Я отпустила контроль и впервые за годы по-настоящему отдохнула.", nm: "Ника", rl: "Сезон I · 2026", av: images.av2, stars: 5 },
-  { q: "Думал, это просто тур. Оказалось — лучшие 14 дней и круг друзей, с которыми мы до сих пор на связи.", nm: "Артём", rl: "Сезон I · 2026", av: images.av3, stars: 5 }];
+  { q: "Цитата участника 1", nm: "Участник 1", rl: "Сезон I", av: images.av1, stars: 5 },
+  { q: "Цитата участника 2", nm: "Участник 2", rl: "Сезон I", av: images.av2, stars: 5 },
+  { q: "Цитата участника 3", nm: "Участник 3", rl: "Сезон I", av: images.av3, stars: 5 }];
 
   return (
     <section className="tm-section tight" id="testimonials">
@@ -50,7 +50,6 @@ function TMTestimonials({ images }) {
         <Reveal>
           <div className="tm-sec-head center">
             <span className="eyebrow">Отзывы участников</span>
-            <h2 className="tm-h2">Живые истории тех,<br />кто уже был в пути.</h2>
           </div>
         </Reveal>
         <div className="tm-grid-3">
@@ -94,7 +93,6 @@ function TMWhoTravels({ images }) {
         <Reveal>
           <div className="tm-sec-head">
             <span className="eyebrow">Со мной путешествуют</span>
-            <h2 className="tm-h2">Реальные люди.<br />Реальные эмоции.</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }} className="tm-who-grid">

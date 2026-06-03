@@ -56,7 +56,7 @@ function TMHero({ images }) {
         <Reveal delay={460} duration={1000} y={20}>
           <div className="tm-hero-subs">
             <span className="s2">Второй сезон · Латинская Америка</span>
-            <span className="s3">Тревел-квест, где маршрут открывается по&nbsp;ходу путешествия. Ты&nbsp;узнаёшь, куда летишь, только когда вскрываешь конверт.</span>
+            <span className="s3">Тревел-квест, где маршрут открывается по&nbsp;ходу путешествия.</span>
           </div>
         </Reveal>
 
@@ -78,11 +78,11 @@ function TMHero({ images }) {
 
 function TMDetails() {
   const plashki = [
-  { k: "Даты", v: "Ноябрь", sub: "2026" },
-  { k: "Продолжительность", v: "14 дней", sub: "13 ночей" },
-  { k: "Страны", v: "Латинская", sub: "Америка · секрет" },
-  { k: "Группа", v: "8–13", sub: "участников" },
-  { k: "Уровень", v: "Средний", sub: "без спецподготовки" }];
+  { k: "Даты", v: "25 янв — 8 фев", sub: "2027 года" },
+  { k: "Продолжительность", v: "15 дней", sub: "" },
+  { k: "Страны", v: "2+", sub: "" },
+  { k: "Группа", v: "до 13", sub: "человек" },
+  { k: "Уровень", v: "Лёгкий", sub: "" }];
 
   return (
     <section className="tm-section tight" id="details">
@@ -90,7 +90,6 @@ function TMDetails() {
         <Reveal>
           <div className="tm-sec-head">
             <span className="eyebrow">Детали тура</span>
-            <h2 className="tm-h2">Всё, что можно рассказать<br />до вскрытия конверта.</h2>
           </div>
         </Reveal>
         <Reveal delay={150} y={28}>
@@ -120,7 +119,11 @@ function TMForm() {
     if (phone.replace(/\D/g, "").length < 10) next.phone = "Укажите корректный телефон";
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) next.email = "Укажите корректный e-mail";
     setErr(next);
-    if (Object.keys(next).length === 0) setSent(true);
+    if (Object.keys(next).length === 0) {
+      const msg = "Привет, Маша! Хочу участвовать в сюрприз-туре! Вышли мне пожалуйста анкету участника.";
+      window.open("https://wa.me/79655004984?text=" + encodeURIComponent(msg), "_blank", "noopener");
+      setSent(true);
+    }
   };
 
   return (
@@ -138,8 +141,8 @@ function TMForm() {
             {sent ?
             <div style={{ textAlign: "center", padding: "20px 0" }}>
                 <div style={{ width: 56, height: 56, margin: "0 auto 20px", borderRadius: "50%", border: "1px solid var(--gold)", display: "grid", placeItems: "center", color: "var(--gold)", fontSize: 24 }}>✓</div>
-                <h3 className="tm-h3" style={{ marginBottom: 10 }}>Заявка принята</h3>
-                <p className="tm-body" style={{ margin: 0 }}>Я свяжусь с тобой лично в течение 72 часов. Дальше — интервью и первый шаг к конверту.</p>
+                <h3 className="tm-h3" style={{ marginBottom: 10 }}>Открываю WhatsApp…</h3>
+                <p className="tm-body" style={{ margin: 0 }}>Отправь готовое сообщение — и я пришлю тебе анкету участника лично. Если чат не открылся, напиши мне на +7 965 500 49 84.</p>
               </div> :
 
             <form className="tm-form-grid" onSubmit={submit} noValidate>
