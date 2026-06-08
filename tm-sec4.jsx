@@ -12,7 +12,7 @@ function TMProcess() {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head center">
-            <span className="tm-block-tag" style={{ justifyContent: "center" }}>Как это устроено</span>
+            <h2 className="tm-h2">Как это устроено</h2>
           </div>
         </Reveal>
         <div className="tm-steps">
@@ -74,11 +74,11 @@ function TMPricing() {
             <div className="tm-price-right">
               <div className="tm-incl-h yes">Входит в стоимость</div>
               <ul className="tm-incl">
-                {included.map((x, i) => <li key={i}><Check />{x}</li>)}
+                {included.map((x, i) => <li key={i}><Check /><span>{x}</span></li>)}
               </ul>
               <div className="tm-incl-h no">Не входит</div>
               <ul className="tm-incl no">
-                {excluded.map((x, i) => <li key={i}><Dash />{x}</li>)}
+                {excluded.map((x, i) => <li key={i}><Dash /><span>{x}</span></li>)}
               </ul>
             </div>
           </div>
@@ -99,7 +99,7 @@ function TMAbout({ images }) {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head">
-            <span className="eyebrow">Кто я и мои ценности</span>
+            <h2 className="tm-h2">Кто я и мои ценности</h2>
           </div>
         </Reveal>
         <div className="tm-about-grid">
@@ -156,7 +156,7 @@ function TMFaq() {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head center">
-            <span className="eyebrow">Вопросы и ответы</span>
+            <h2 className="tm-h2">Вопросы и ответы</h2>
           </div>
         </Reveal>
         <div className="tm-faq">

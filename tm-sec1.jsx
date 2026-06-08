@@ -17,7 +17,7 @@ function TMNav() {
         <a className="hide-sm" href="#process">Как это устроено</a>
         <a className="hide-sm" href="#price">Стоимость</a>
         <a className="hide-sm" href="#about">Кто я</a>
-        <a className="btn btn-ghost" href="#form" style={{ padding: "11px 20px" }}>Я в теме <span className="arr">→</span></a>
+        <a className="btn btn-ghost nav-cta" href="#form" style={{ padding: "11px 20px" }}>Я в теме <span className="arr">→</span></a>
       </div>
     </nav>);
 
@@ -78,7 +78,7 @@ function TMHero({ images }) {
 
 function TMDetails() {
   const plashki = [
-  { k: "Даты", v: "25 янв — 8 фев", sub: "2027 года" },
+  { k: "Даты", v: "25 янв — 8 фев", sub: "2027 года" },
   { k: "Продолжительность", v: "15 дней", sub: "" },
   { k: "Страны", v: "2+", sub: "" },
   { k: "Группа", v: "до 13", sub: "человек" },
@@ -172,4 +172,14 @@ function TMForm() {
 
 }
 
-Object.assign(window, { TMNav, TMHero, TMDetails, TMForm });
+function TMFloatingCTA() {
+  const y = useScrollY();
+  const show = y > 720;
+  return (
+    <a className={"tm-fab" + (show ? " show" : "")} href="#form" aria-label="Я в теме">
+      Я в теме <span className="arr">→</span>
+    </a>);
+
+}
+
+Object.assign(window, { TMNav, TMHero, TMDetails, TMForm, TMFloatingCTA });

@@ -4,7 +4,7 @@ function TMStory() {
   return (
     <section className="tm-section tm-story" id="story">
       <div className="tm-wrap">
-        <div className="tm-route-grid" style={{ gridTemplateColumns: "1fr 1.1fr" }}>
+        <div className="tm-twocol tm-twocol--legend">
           <Reveal>
             <div>
               <span className="eyebrow" style={{ display: "block", marginBottom: 18 }}>Легенда</span>
@@ -179,7 +179,7 @@ function TMAncestors() {
         </Parallax>
       </div>
       <div className="tm-wrap" style={{ position: "relative", zIndex: 5 }}>
-        <div className="tm-route-grid" style={{ gridTemplateColumns: "1.1fr 1fr", alignItems: "center" }}>
+        <div className="tm-twocol tm-twocol--zachem">
           <Reveal>
             <div>
               <span className="tm-block-tag" style={{ marginBottom: 18 }}>Зачем это нужно</span>

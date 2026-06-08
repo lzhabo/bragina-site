@@ -92,7 +92,7 @@ function TMWhoTravels({ images }) {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head">
-            <span className="eyebrow">Со мной путешествуют</span>
+            <h2 className="tm-h2">Со мной путешествуют</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }} className="tm-who-grid">
@@ -106,7 +106,7 @@ function TMWhoTravels({ images }) {
             </Reveal>
           )}
         </div>
-        <style>{`@media (max-width: 760px){ .tm-who-grid { grid-template-columns: 1fr 1fr !important; } }`}</style>
+        <style>{`@media (max-width: 760px){ .tm-who-grid { grid-template-columns: 1fr !important; gap: 16px !important; max-width: 460px; margin: 0 auto; } }`}</style>
       </div>
     </section>);
 

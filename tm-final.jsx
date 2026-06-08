@@ -13,9 +13,6 @@ function TMFinal({ images }) {
         </div>
       </div>
       <div className="tm-final-inner">
-        <Reveal y={20}>
-          <span className="eyebrow" style={{ display: "block", marginBottom: 24 }}>Финал</span>
-        </Reveal>
         <Reveal delay={140} y={32}>
           <h2 className="tm-display" style={{ fontSize: "clamp(38px, 5.6vw, 88px)" }}>
             Присоединяйся<br />к путешествию<br />твоей <span className="gold-b">жизни.</span>

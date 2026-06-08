@@ -42,6 +42,7 @@ function TMApp() {
   return (
     <>
       <TMNav />
+      <TMFloatingCTA />
       <TMHero images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMDetails />
