@@ -6,11 +6,11 @@ function LatAmMap() {
     <svg viewBox="126 426 204 274" role="img" aria-label="Контурная карта Латинской Америки">
       <defs>
         <radialGradient id="tmLandFill" cx="46%" cy="34%" r="78%">
-          <stop offset="0%" stopColor="#15281E" />
-          <stop offset="100%" stopColor="#0D1A13" />
+          <stop offset="0%" stopColor="#234032" />
+          <stop offset="100%" stopColor="#142A1F" />
         </radialGradient>
         <filter id="tmLandGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="0" stdDeviation="2.4" floodColor="#C8A877" floodOpacity="0.18" />
+          <feDropShadow dx="0" dy="0" stdDeviation="2.4" floodColor="#C8A877" floodOpacity="0.32" />
         </filter>
       </defs>
 

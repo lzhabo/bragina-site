@@ -27,7 +27,7 @@ function TMHero({ images }) {
       <div className="tm-hero-bg" style={{ backgroundImage: `url("${images.hero}")`, transform: `translate3d(0, ${y * 0.25}px, 0) scale(1.08)` }} />
 
       {/* jungle silhouettes */}
-      <div className="layer" style={{ transform: `translate3d(0, ${y * 0.5}px, 0)`, opacity: .8 }}>
+      <div className="layer" style={{ transform: `translate3d(0, ${y * 0.5}px, 0)`, opacity: .5 }}>
         <div style={{ position: "absolute", left: "-8%", bottom: "-12%", width: "32vw", height: "70vh", filter: "blur(3px)" }}>
           <Fern fill="#030a07" opacity={.9} />
         </div>

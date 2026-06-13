@@ -217,13 +217,14 @@ img { max-width: 100%; display: block; }
   border: 1px solid rgba(200,168,119,.3);
 }
 .tm-logo small { display: block; font-size: 10px; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--text-faint); margin-top: 1px; }
-.tm-logo-img { height: 38px; width: auto; display: block; }
+.tm-logo-img { height: 38px; width: auto; display: block; filter: drop-shadow(0 1px 8px rgba(0,0,0,.6)); }
 .tm-footer .tm-logo-img { height: 42px; }
 .tm-nav-links { display: flex; align-items: center; gap: 30px; }
 .tm-nav-links a {
-  font-size: 14px; font-weight: 500; color: var(--text-dim); text-decoration: none;
-  transition: color .25s; letter-spacing: -0.005em;
+  font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none;
+  transition: color .25s; letter-spacing: -0.005em; text-shadow: 0 1px 10px rgba(0,0,0,.55);
 }
+.tm-nav.scrolled .tm-nav-links a { text-shadow: none; }
 .tm-nav-links a:hover { color: var(--gold-bright); }
 @media (max-width: 920px) { .tm-nav-links .hide-sm { display: none; } }
 @media (max-width: 600px) { .tm-nav-links .nav-cta { display: none; } }
@@ -274,6 +275,12 @@ img { max-width: 100%; display: block; }
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(180deg, transparent 74%, var(--bg));
+}
+/* top scrim so the logo + nav links always read clearly over the bright sky */
+.tm-hero::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 240px; z-index: 1;
+  background: linear-gradient(180deg, rgba(7,17,12,.9) 0%, rgba(7,17,12,.5) 42%, rgba(7,17,12,0) 100%);
+  pointer-events: none;
 }
 .tm-hero-inner { position: relative; z-index: 5; max-width: 1000px; }
 .tm-hero .tm-display { margin: 26px 0 0; }
@@ -453,14 +460,14 @@ img { max-width: 100%; display: block; }
 /* freeform hand-drawn connectors */
 .tm-conn { position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: visible; }
 .tm-conn path {
-  stroke: var(--gold); stroke-width: 1.4; stroke-opacity: .3;
+  stroke: var(--gold-bright); stroke-width: 1.5; stroke-opacity: .45;
   fill: none; stroke-linecap: round;
   transition: stroke-opacity .5s var(--ease);
 }
-.tm-conn .src { fill: var(--gold); opacity: .5; }
-.tm-conn .dst { fill: var(--gold-bright); opacity: .9; }
-.tm-conn .dst-ring { stroke: var(--gold-bright); stroke-width: 1; stroke-opacity: .5; }
-.tm-rv-stage.unlocked .tm-conn path { stroke-opacity: .48; }
+.tm-conn .src { fill: var(--gold-bright); opacity: .8; }
+.tm-conn .dst { fill: var(--gold-bright); opacity: 1; }
+.tm-conn .dst-ring { stroke: var(--gold-bright); stroke-width: 1.1; stroke-opacity: .7; }
+.tm-rv-stage.unlocked .tm-conn path { stroke-opacity: .72; }
 .tm-rv-stage.unlocked .tm-conn .dst-ring { stroke-opacity: .8; }
 @media (prefers-reduced-motion: no-preference) {
   .tm-rv-stage.unlocked .tm-conn .dst-ring { animation: tmDstPulse 2.8s var(--ease) infinite; transform-box: fill-box; transform-origin: center; }
@@ -485,13 +492,13 @@ img { max-width: 100%; display: block; }
 }
 
 /* cartographic contour map */
-.tm-grat line { stroke: var(--gold); stroke-width: 0.4; stroke-opacity: 0.09; stroke-dasharray: 1.5 6; }
+.tm-grat line { stroke: var(--gold); stroke-width: 0.4; stroke-opacity: 0.14; stroke-dasharray: 1.5 6; }
 .tm-land path {
   fill: url(#tmLandFill);
-  stroke: var(--gold); stroke-width: 0.5; stroke-opacity: 0.55;
+  stroke: var(--gold-bright); stroke-width: 0.7; stroke-opacity: 0.95;
   stroke-linejoin: round; stroke-linecap: round;
 }
-.tm-leader line { stroke: var(--gold); stroke-width: 0.4; stroke-opacity: 0.5; }
+.tm-leader line { stroke: var(--gold); stroke-width: 0.5; stroke-opacity: 0.7; }
 .tm-mlabels text {
   fill: var(--gold-bright);
   font-family: 'Manrope', sans-serif; font-weight: 600;
