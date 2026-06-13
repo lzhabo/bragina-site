@@ -51,8 +51,8 @@ function TMRoute({ images = {} }) {
   const [locked, setLocked] = React.useState(true);
 
   const items = [
-  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.rHeli, pos: "center 42%" },
-  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.rQuest, pos: "center 82%" },
+  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.rHeli, pos: "center 25%" },
+  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.rQuest, pos: "center 80%" },
   { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.rSea, pos: "center 46%" },
   { t: "Флора и фауна", d: "Дикая природа без барьеров и толпы.", img: images.rFauna, pos: "center 40%" },
   { t: "Культура и люди", d: "Жизнь местных, а не витрина для туристов.", img: images.rPeople, pos: "center 50%" },

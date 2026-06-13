@@ -100,7 +100,7 @@ function TMWhoTravels({ images }) {
   { id: "kMlYk1leoHY", tag: "Отзыв", kind: "review" },
   { id: "BOdRAAIW4x4", tag: "Серия 02", kind: "story" },
   { id: "GGy57vjOIkY", tag: "Отзыв", kind: "review" },
-  { id: "ssudbcPZvFE", tag: "Серия 03", kind: "story" },
+  { id: "DiXG_ud4K5s", tag: "Серия 03", kind: "story" },
   { id: "ssudbcPZvFE", tag: "Отзыв", kind: "review" }];
 
 
