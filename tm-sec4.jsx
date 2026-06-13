@@ -60,7 +60,7 @@ function TMPricing() {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head">
-            <span className="eyebrow">Стоимость</span>
+            <h2 className="tm-h2">Стоимость</h2>
           </div>
         </Reveal>
         <Reveal delay={150} y={28}>

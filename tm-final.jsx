@@ -37,20 +37,19 @@ const SocialIcon = ({ d }) =>
 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">{d}</svg>;
 
 
-function TMFooter() {
+function TMFooter({ logo }) {
   return (
     <footer className="tm-footer">
       <div className="tm-footer-inner">
         <div style={{ maxWidth: 340 }}>
           <a className="tm-logo" href="#top" style={{ marginBottom: 16 }}>
-            <span className="mark" />
-            <span>Travel Mary<small>Surprise Trip</small></span>
+            <img className="tm-logo-img footer" src={logo || "images/logo.png"} alt="Travel Mary" />
           </a>
           <p className="tm-small" style={{ marginTop: 16 }}>
             Авторские путешествия в формате сюрприз-трип. Маршрут — тайна, эмоции — легенда.
           </p>
         </div>
-        <div style={{ textAlign: "right" }}>
+        <div className="tm-footer-social" style={{ textAlign: "right" }}>
           <div className="eyebrow" style={{ marginBottom: 16 }}>Социальные сети</div>
           <div className="tm-socials" style={{ justifyContent: "flex-end" }}>
             <a className="tm-social" href="#" aria-label="Telegram" onClick={(e) => e.preventDefault()}>
@@ -63,7 +62,7 @@ function TMFooter() {
               <SocialIcon d={<><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" strokeWidth="1.7" /><path d="M10 9.5 L15 12 L10 14.5 Z" /></>} />
             </a>
             <a className="tm-social" href="#" aria-label="WhatsApp" onClick={(e) => e.preventDefault()}>
-              <SocialIcon d={<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3zm0 2a7 7 0 0 1 5.9 10.7l-.3.5.6 2.2-2.3-.6-.5.3A7 7 0 1 1 12 5zm-2.5 3c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.5.7 3 .6.5-.1 1.4-.6 1.6-1.2.2-.6.2-1 .1-1.1l-.7-.4-1.5-.7c-.2-.1-.4-.1-.5.1l-.6.8c-.1.2-.3.2-.5.1-.6-.3-1.4-.6-2.2-1.5-.6-.6-1-1.3-1.1-1.5-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3.2-.4 0-.2 0-.3 0-.5l-.7-1.6c-.2-.4-.3-.4-.5-.4z" />} />
+              <SocialIcon d={<path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.92-7.02zM12.04 20.15h-.01a8.23 8.23 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24a8.2 8.2 0 0 1 5.83 2.42 8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.8-.23-.09-.39-.13-.56.12-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.13-1.05-.39-1.99-1.23-.74-.66-1.23-1.48-1.38-1.73-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.22-.17-.47-.29z" />} />
             </a>
           </div>
         </div>

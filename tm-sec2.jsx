@@ -7,7 +7,6 @@ function TMStory() {
         <div className="tm-twocol tm-twocol--legend">
           <Reveal>
             <div>
-              <span className="eyebrow" style={{ display: "block", marginBottom: 18 }}>Легенда</span>
               <h2 className="tm-h1">Есть круг людей,<br />которые хранят<br /><span className="gold-b">места силы.</span></h2>
             </div>
           </Reveal>
@@ -49,20 +48,15 @@ function TMConcept({ images }) {
 }
 
 function TMRoute({ images = {} }) {
-  const [open, setOpen] = React.useState(() => new Set());
-  const toggle = (i) => setOpen((prev) => {
-    const next = new Set(prev);
-    next.has(i) ? next.delete(i) : next.add(i);
-    return next;
-  });
+  const [locked, setLocked] = React.useState(true);
 
   const items = [
-  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.ep2 },
-  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.val4 },
-  { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.val1 },
-  { t: "Флора и фауна", d: "Дикая природа без барьеров и толпы.", img: images.ep3 },
-  { t: "Культура и люди", d: "Жизнь местных, а не витрина для туристов.", img: images.ep1 },
-  { t: "Неочевидные маршруты", d: "Составлены вместе с локальными экспертами.", img: images.final }];
+  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.rHeli, pos: "center 42%" },
+  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.rQuest, pos: "center 82%" },
+  { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.rSea, pos: "center 46%" },
+  { t: "Флора и фауна", d: "Дикая природа без барьеров и толпы.", img: images.rFauna, pos: "center 40%" },
+  { t: "Культура и люди", d: "Жизнь местных, а не витрина для туристов.", img: images.rPeople, pos: "center 50%" },
+  { t: "Неочевидные маршруты", d: "Составлены вместе с локальными экспертами.", img: images.rOffbeat, pos: "center 52%" }];
 
   const leftItems = items.slice(0, 3);
   const rightItems = items.slice(3);
@@ -70,29 +64,66 @@ function TMRoute({ images = {} }) {
   const stageRef = React.useRef(null);
   const mapRef = React.useRef(null);
   const cardRefs = React.useRef([]);
-  const [lines, setLines] = React.useState([]);
+  const [paths, setPaths] = React.useState([]);
   const [dim, setDim] = React.useState({ w: 0, h: 0 });
+
+  // deterministic pseudo-random per card/seed — stable across renders & widths
+  const rnd = (i, n) => {const v = Math.sin(i * 91.7 + n * 13.13) * 43758.5453;return v - Math.floor(v);};
+
+  // The map SVG viewBox is "126 426 204 274". Each card connects to a real, scattered
+  // point ON the landmass, expressed in those viewBox coords — so anchors track the map
+  // exactly at any desktop width (no melting). Left cards → western points, right → eastern,
+  // so leader lines never cross the continent. Order matches card order (top→bottom per col).
+  const MAP_VB = { x: 126, y: 426, w: 204, h: 274 };
+  const ANCHORS = [
+  [151, 452], // 0 · left-top    — Mexico
+  [211, 537], // 1 · left-mid    — Ecuador / Peru coast
+  [241, 629], // 2 · left-bottom — Chile / Patagonia
+  [262, 513], // 3 · right-top   — Venezuela / Guyana
+  [285, 566], // 4 · right-mid   — Brazil (east)
+  [263, 648]];// 5 · right-bottom — Argentina
+
+
+  // organic, hand-drawn-feeling leader: a bowed cubic whose curvature is proportional to
+  // the span (so it stays graceful at every width) with a deterministic per-card lean.
+  const connect = (sx, sy, ex, ey, seed) => {
+    const dx = ex - sx, dy = ey - sy;
+    const dist = Math.hypot(dx, dy) || 1;
+    const px = -dy / dist, py = dx / dist; // unit perpendicular
+    const r1 = rnd(seed, 1), r2 = rnd(seed, 2);
+    const bow = dist * (0.10 + r1 * 0.13) * (r2 > 0.5 ? 1 : -1);
+    const c1x = sx + dx * 0.36 + px * bow;
+    const c1y = sy + dy * 0.36 + py * bow;
+    const c2x = sx + dx * 0.68 + px * bow * 0.55;
+    const c2y = sy + dy * 0.68 + py * bow * 0.55;
+    return `M ${sx.toFixed(1)} ${sy.toFixed(1)} C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+  };
 
   const compute = React.useCallback(() => {
     const stage = stageRef.current, map = mapRef.current;
     if (!stage || !map) return;
     const sb = stage.getBoundingClientRect();
-    if (sb.width < 760) { setLines([]); setDim({ w: sb.width, h: sb.height }); return; }
-    const mb = map.getBoundingClientRect();
-    const cx = mb.left + mb.width / 2 - sb.left;
-    const cy = mb.top + mb.height / 2 - sb.top;
-    const ls = cardRefs.current.map((el) => {
+    if (sb.width < 760) { setPaths([]); setDim({ w: sb.width, h: sb.height }); return; }
+    const mb = (map.querySelector("svg") || map).getBoundingClientRect();
+    const mapLeft = mb.left - sb.left, mapTop = mb.top - sb.top;
+    const mapW = mb.width, mapH = mb.height;
+    // map a point in the map's SVG viewBox coords → stage pixel coords (tracks the map at any width)
+    const toStage = (vx, vy) => ({
+      x: mapLeft + (vx - MAP_VB.x) / MAP_VB.w * mapW,
+      y: mapTop + (vy - MAP_VB.y) / MAP_VB.h * mapH });
+
+    const ls = cardRefs.current.map((el, i) => {
       if (!el) return null;
       const b = el.getBoundingClientRect();
-      const cap = el.querySelector("figcaption");
-      const cb = cap ? cap.getBoundingClientRect() : b;
       const isLeft = b.left + b.width / 2 < sb.left + sb.width / 2;
-      const x = (isLeft ? b.right : b.left) - sb.left;
-      const y = cb.top + cb.height / 2 - sb.top;
-      return { x, y, cx, cy };
+      const sx = (isLeft ? b.right : b.left) - sb.left;
+      const sy = b.top + b.height / 2 - sb.top;
+      const a = ANCHORS[i] || ANCHORS[0];
+      const p = toStage(a[0], a[1]);
+      return { d: connect(sx, sy, p.x, p.y, i + 1), sx, sy, ex: p.x, ey: p.y };
     }).filter(Boolean);
     setDim({ w: sb.width, h: sb.height });
-    setLines(ls);
+    setPaths(ls);
   }, []);
 
   React.useEffect(() => {
@@ -100,24 +131,20 @@ function TMRoute({ images = {} }) {
     const ts = [setTimeout(compute, 120), setTimeout(compute, 340), setTimeout(compute, 640)];
     window.addEventListener("resize", compute);
     return () => {ts.forEach(clearTimeout);window.removeEventListener("resize", compute);};
-  }, [compute, open]);
+  }, [compute]);
 
   const setCardRef = (i) => (el) => {cardRefs.current[i] = el;};
 
   const renderCard = (it, idx) =>
-  <figure
-    className={"tm-rv-card" + (open.has(idx) ? " open" : "")}
-    key={idx}
-    ref={setCardRef(idx)}
-    onClick={() => toggle(idx)}>
-
-      <div className="ph" style={{ backgroundImage: `url(${it.img})` }} />
+  <figure className="tm-rv-card" key={idx} ref={setCardRef(idx)}>
+      <div className="ph" style={{ backgroundImage: `url("${it.img}")`, backgroundPosition: it.pos || "center" }} />
+      <div className="tm-rv-lockhint" aria-hidden="true">
+        <span className="lk" />
+        <span>Нажми, чтобы узнать</span>
+      </div>
       <figcaption>
-        <div className="tx">
-          <div className="t">{it.t}</div>
-          <div className="d">{it.d}</div>
-        </div>
-        <span className="ic" aria-hidden="true" />
+        <div className="t">{it.t}</div>
+        <div className="d">{it.d}</div>
       </figcaption>
     </figure>;
 
@@ -127,18 +154,24 @@ function TMRoute({ images = {} }) {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head center">
-            <span className="tm-block-tag">Маршрут</span>
-            <p className="tm-rv-lead">Нажми на впечатление&nbsp;— и откроется кадр из прошлых путешествий.</p>
+            <span className="eyebrow">Маршрут</span>
+            <p className="tm-rv-lead">Ты можешь оставить план тайной&nbsp;— или разблокировать экспириенс. Всё заблюрено: нажми, чтобы узнать, какой опыт тебя ждёт.</p>
           </div>
         </Reveal>
 
         <Reveal y={28}>
-          <div className="tm-rv-stage" ref={stageRef}>
+          <div
+            className={"tm-rv-stage" + (locked ? " locked" : " unlocked")}
+            ref={stageRef}
+            onClick={() => locked && setLocked(false)}>
+
             <svg className="tm-conn" width={dim.w} height={dim.h} viewBox={`0 0 ${dim.w} ${dim.h}`} preserveAspectRatio="none" aria-hidden="true">
-              {lines.map((l, i) =>
+              {paths.map((p, i) =>
               <g key={i}>
-                  <line x1={l.x} y1={l.y} x2={l.cx} y2={l.cy} />
-                  <circle cx={l.x} cy={l.y} r="3" />
+                  <path d={p.d} fill="none" />
+                  <circle className="src" cx={p.sx} cy={p.sy} r="2.4" />
+                  <circle className="dst-ring" cx={p.ex} cy={p.ey} r="4" fill="none" />
+                  <circle className="dst" cx={p.ex} cy={p.ey} r="1.9" />
                 </g>
               )}
             </svg>
@@ -158,10 +191,20 @@ function TMRoute({ images = {} }) {
         </Reveal>
 
         <div className="tm-rv-foot">
-          <p className="tm-map-cap">Латинская Америка — наш регион. Точные точки маршрута остаются сюрпризом до старта.</p>
-          <div className="tm-rv-actions">
-            <a className="btn btn-primary" href="#form">Я в теме <span className="arr">→</span></a>
+          <div className="tm-unlock-bar">
+            <span className="txt">
+              {locked ?
+              "Шесть впечатлений на маршруте — пока скрыты. Открой, если готов к спойлерам." :
+              "Маршрут раскрыт. Но самое интересное всё равно случится на месте."}
+            </span>
+            <button
+              className={"btn " + (locked ? "btn-primary" : "btn-ghost")}
+              onClick={(e) => {e.stopPropagation();setLocked((v) => !v);}}>
+
+              {locked ? <>Разблокировать маршрут <span className="arr">→</span></> : "Скрыть снова"}
+            </button>
           </div>
+          <p className="tm-map-cap">Латинская Америка — наш регион. Точные точки маршрута остаются сюрпризом до старта.</p>
         </div>
       </div>
     </section>);
@@ -182,8 +225,7 @@ function TMAncestors() {
         <div className="tm-twocol tm-twocol--zachem">
           <Reveal>
             <div>
-              <span className="tm-block-tag" style={{ marginBottom: 18 }}>Зачем это нужно</span>
-              <h2 className="tm-h2" style={{ marginTop: 14 }}>Сюрприз-трип&nbsp;— это возможность путешествовать <span className="gold-b">как наши предки.</span></h2>
+              <h2 className="tm-h2">Сюрприз-трип&nbsp;— это возможность путешествовать <span className="gold-b">как наши предки.</span></h2>
             </div>
           </Reveal>
           <Reveal delay={180} y={28}>

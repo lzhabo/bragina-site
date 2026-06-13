@@ -40,9 +40,19 @@ function TMEpisodes({ images }) {
 
 function TMTestimonials({ images }) {
   const items = [
-  { q: "Цитата участника 1", nm: "Участник 1", rl: "Сезон I", av: images.av1, stars: 5 },
-  { q: "Цитата участника 2", nm: "Участник 2", rl: "Сезон I", av: images.av2, stars: 5 },
-  { q: "Цитата участника 3", nm: "Участник 3", rl: "Сезон I", av: images.av3, stars: 5 }];
+  {
+    q: ["Если бы, Маш, ты дала бы нам право выбора, да, и мы бы выбирали — ну, во-первых, мы бы тут вообще очень долго выбирали, и, короче, на выходе все парни согласились бы, чтобы мы никогда бы не приехали сюда. И огромное спасибо, что мы здесь. Просто это что-то невероятное!"],
+    nm: "Александр Волик", rl: "Участник путешествия", av: images.alex, pos: "50% 24%", stars: 5 },
+  {
+    q: [
+    "Мы доверились тебе полностью, не зная ничего: куда мы едем и чего нам ждать. Вложенные тобою силы, ум, чуткость, пронзительность, твой профессионализм, а самое главное — твоя душа чувствовались на протяжении всего путешествия с самого начала.",
+    "Хочется от всей души выразить тебе благодарность за то, что ты сделала для нас. Путешествие с тобой — это тотальное доверие и расслабление. Всегда знаешь, что за тебя наперёд продумано и запланировано абсолютно всё. Любые пожелания моментально, а чаще наперёд уже продуманы и решены. Это одно из лучших путешествий, сделанных тобой для меня.",
+    "Ты надёжный друг, партнёр и близкий человек. Спасибо тебе, Маша, большое."],
+
+    nm: "Дамир Агалямзянов", rl: "Участник путешествия", av: images.damir, pos: "36% 52%", stars: 5 }];
+
+
+  const initials = (nm) => nm.split(" ").slice(0, 2).map((w) => w[0]).join("");
 
   return (
     <section className="tm-section tight" id="testimonials">
@@ -52,14 +62,18 @@ function TMTestimonials({ images }) {
             <span className="eyebrow">Отзывы участников</span>
           </div>
         </Reveal>
-        <div className="tm-grid-3">
+        <div className="tm-quotes-stack">
           {items.map((t, i) =>
           <Reveal key={i} delay={i * 120} y={28}>
-              <div className="tm-quote-card">
+              <div className="tm-quote-card wide">
                 <div className="tm-stars">{"★".repeat(t.stars)}</div>
-                <p className="q">«{t.q}»</p>
+                <div className="q">
+                  {t.q.map((p, j) =>
+                  <p key={j}>{j === 0 ? "«" : ""}{p}{j === t.q.length - 1 ? "»" : ""}</p>
+                  )}
+                </div>
                 <div className="who">
-                  <span className="tm-avatar" style={{ backgroundImage: `url("${t.av}")` }} />
+                  <span className="tm-avatar lg" style={{ backgroundImage: `url("${t.av}")`, backgroundPosition: t.pos }} />
                   <div>
                     <div className="nm">{t.nm}</div>
                     <div className="rl">{t.rl}</div>
@@ -80,12 +94,17 @@ function TMTestimonials({ images }) {
 }
 
 function TMWhoTravels({ images }) {
-  // mix of video placeholders + screenshot placeholders
-  const tiles = [
-  { kind: "video", thumb: images.ep3, label: "Видеоотзыв · Маврикий" },
-  { kind: "photo", thumb: images.val1, label: "Кадр участника" },
-  { kind: "video", thumb: images.ep1, label: "Видеоотзыв · сафари" },
-  { kind: "photo", thumb: images.val4, label: "Гала-ужин" }];
+  // Real YouTube Shorts — Маша рассказывает о трипе (3 серии) и отзывы участников, замиксованы.
+  const vids = [
+  { id: "skWZ53_y6Es", tag: "Серия 01", kind: "story" },
+  { id: "kMlYk1leoHY", tag: "Отзыв", kind: "review" },
+  { id: "BOdRAAIW4x4", tag: "Серия 02", kind: "story" },
+  { id: "GGy57vjOIkY", tag: "Отзыв", kind: "review" },
+  { id: "ssudbcPZvFE", tag: "Серия 03", kind: "story" },
+  { id: "ssudbcPZvFE", tag: "Отзыв", kind: "review" }];
+
+
+  const [active, setActive] = React.useState(() => ({}));
 
   return (
     <section className="tm-section tight" id="who">
@@ -95,18 +114,31 @@ function TMWhoTravels({ images }) {
             <h2 className="tm-h2">Со мной путешествуют</h2>
           </div>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }} className="tm-who-grid">
-          {tiles.map((t, i) =>
-          <Reveal key={i} delay={i * 100} y={24}>
-              <div className="tm-media" style={{ aspectRatio: "3/4" }}>
-                <div className="thumb" style={{ backgroundImage: `url("${t.thumb}")`, aspectRatio: "3/4", height: "100%" }} />
-                {t.kind === "video" && <div className="play"><PlayIcon /></div>}
-                <div className="meta"><div className="ep">{t.kind === "video" ? "Видео" : "Фото"}</div><div className="ti" style={{ fontSize: 14 }}>{t.label}</div></div>
+        <div className="tm-shorts">
+          {vids.map((v, i) =>
+          <Reveal key={i} delay={i * 80} y={24}>
+              <div className="tm-short">
+                {active[i] ?
+                <iframe
+                  src={`https://www.youtube.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0`}
+                  title={v.tag}
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen /> :
+
+
+                <button className="tm-short-face" onClick={() => setActive((a) => ({ ...a, [i]: true }))} aria-label={`Смотреть: ${v.tag}`}>
+                    <span className="thumb" style={{ backgroundImage: `url("https://i.ytimg.com/vi/${v.id}/hqdefault.jpg")` }} />
+                    <span className={"tag" + (v.kind === "review" ? " review" : "")}>{v.tag}</span>
+                    <span className="play">
+                      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 3.5 L16 10 L5 16.5 Z" /></svg>
+                    </span>
+                  </button>
+                }
               </div>
             </Reveal>
           )}
         </div>
-        <style>{`@media (max-width: 760px){ .tm-who-grid { grid-template-columns: 1fr !important; gap: 16px !important; max-width: 460px; margin: 0 auto; } }`}</style>
       </div>
     </section>);
 

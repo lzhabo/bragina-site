@@ -1,16 +1,12 @@
 // tm-sec1.jsx — Nav, Hero, Trip details (plashki), Participant form
 
-function TMNav() {
+function TMNav({ logo }) {
   const y = useScrollY();
   const scrolled = y > 60;
   return (
     <nav className={"tm-nav" + (scrolled ? " scrolled" : "")}>
       <a className="tm-logo" href="#top">
-        <span className="mark" />
-        <span>
-          Travel Mary
-          <small>Surprise Trip</small>
-        </span>
+        <img className="tm-logo-img" src={logo || "images/logo.png"} alt="Travel Mary" />
       </a>
       <div className="tm-nav-links">
         <a className="hide-sm" href="#route">Маршрут</a>
