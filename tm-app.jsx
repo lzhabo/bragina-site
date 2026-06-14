@@ -12,10 +12,6 @@ const TM_IMAGES = {
   hero: R.hero || "https://images.unsplash.com/photo-1531065208531-4036c0dba3ca?w=2400&q=80&auto=format&fit=crop",
   // final cta — atmospheric landscape
   final: R.final || "https://images.unsplash.com/photo-1547235001-d703406d3f17?w=2400&q=80&auto=format&fit=crop",
-  // previous episodes thumbnails — real expedition photos
-  ep1: R.ep1 || "images/safari-jeep.webp",
-  ep2: R.ep2 || "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=1200&q=80&auto=format&fit=crop",
-  ep3: R.ep3 || "images/whale-diver.webp",
   // who-travels tiles
   val1: R.val1 || "images/pelican-boat.webp",
   val4: R.val4 || "images/victoria-falls-group.png",
@@ -32,7 +28,7 @@ const TM_IMAGES = {
   rPeople: R.rPeople || "images/route-people.jpg",
   rOffbeat: R.rOffbeat || "images/route-offbeat.jpg",
   // about — Masha
-  masha: R.masha || "images/masha-portrait.webp",
+  masha: R.masha || "images/masha-portrait.jpg",
   // logo
   logo: R.logo || "images/logo.png"
 };
@@ -64,12 +60,14 @@ function TMApp() {
       <div className="tm-divider" />
       <TMAncestors />
       <div className="tm-divider" />
+      <TMEpisodes />
+      <div className="tm-divider" />
+      <TMTestimonials images={TM_IMAGES} />
+      <div className="tm-divider" />
       <TMProcess />
       <TMPricing />
       <div className="tm-divider" />
-      <TMWhoTravels images={TM_IMAGES} />
-      <div className="tm-divider" />
-      <TMTestimonials images={TM_IMAGES} />
+      <TMBlog />
       <div className="tm-divider" />
       <TMAbout images={TM_IMAGES} />
       <TMFaq />

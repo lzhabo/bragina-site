@@ -64,22 +64,24 @@ function TMPricing() {
           </div>
         </Reveal>
         <Reveal delay={150} y={28}>
-          <div className="tm-price-grid">
-            <div className="tm-price-left">
+          <div className="tm-price-card">
+            <div className="tm-price-head">
               <div className="tm-price-amount"><span className="cur">$</span>9&nbsp;900</div>
-              <div style={{ marginTop: 28 }}>
-                <a className="btn btn-primary" href="#form">Я с вами! <span className="arr">→</span></a>
-              </div>
+              <a className="btn btn-primary" href="#form">Я с вами! <span className="arr">→</span></a>
             </div>
-            <div className="tm-price-right">
-              <div className="tm-incl-h yes">Входит в стоимость</div>
-              <ul className="tm-incl">
-                {included.map((x, i) => <li key={i}><Check /><span>{x}</span></li>)}
-              </ul>
-              <div className="tm-incl-h no">Не входит</div>
-              <ul className="tm-incl no">
-                {excluded.map((x, i) => <li key={i}><Dash /><span>{x}</span></li>)}
-              </ul>
+            <div className="tm-price-cols">
+              <div>
+                <div className="tm-incl-h yes">Входит в стоимость</div>
+                <ul className="tm-incl tm-incl-2col">
+                  {included.map((x, i) => <li key={i}><Check /><span>{x}</span></li>)}
+                </ul>
+              </div>
+              <div>
+                <div className="tm-incl-h no">Не входит</div>
+                <ul className="tm-incl no">
+                  {excluded.map((x, i) => <li key={i}><Dash /><span>{x}</span></li>)}
+                </ul>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -106,28 +108,22 @@ function TMAbout({ images }) {
           <Reveal y={32}>
             <div className="tm-about-photo">
               <img src={images.masha} alt="Маша — автор путешествий Travel Mary" />
-              <span className="badge">Travel Mary</span>
             </div>
           </Reveal>
           <Reveal delay={180} y={28}>
             <div>
-              <h2 className="tm-h1">Привет, я&nbsp;<span className="gold-b">Маша.</span></h2>
-              <p className="tm-lead" style={{ marginTop: 20 }}>
-                Организую путешествия с 2013 года — индивидуальные туры, групповые экспедиции
-                и форматы, которых нет ни в одном агентстве. Говорю на четырёх языках, поэтому
-                в Латинской Америке для меня нет закрытых дверей.
-              </p>
-              <div className="tm-values">
-                {values.map((v, i) => (
-                  <div className="tm-value" key={i}>
-                    <span className="vi">✦</span>
-                    <div>
-                      <div className="vt">{v.vt}</div>
-                      <div className="vd">{v.vd}</div>
-                    </div>
-                  </div>
-                ))}
+              <h2 className="tm-h1">Мария&nbsp;<span className="gold-b">Брагина</span></h2>
+              <div style={{ marginTop: 12, fontSize: 18, fontWeight: 700, color: "var(--text)" }}>
+                Руководитель проектов
               </div>
+              <div style={{ marginTop: 6, fontSize: 14, color: "var(--text-dim)", lineHeight: 1.5 }}>
+                6 лет опыта · Специализация: B2B-поездки, конференции, корпоративы
+              </div>
+              <p className="tm-lead" style={{ marginTop: 22 }}>
+                Брагина — по фамилии, мастер — по сути. Выстроит проект так, что ему
+                будет удобно жить. Держит всё под контролем и при этом остаётся
+                на вашей стороне.
+              </p>
             </div>
           </Reveal>
         </div>

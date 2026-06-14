@@ -4,32 +4,46 @@ const PlayIcon = () =>
 <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 3.5 L16 10 L5 16.5 Z" /></svg>;
 
 
-function TMEpisodes({ images }) {
-  const eps = [
-  { ep: "Серия 01", ti: "Африка, которую не ждали", thumb: images.ep1 },
-  { ep: "Серия 02", ti: "Пустыня под звёздами", thumb: images.ep2 },
-  { ep: "Серия 03", ti: "Океан и киты", thumb: images.ep3 }];
+function TMEpisodes() {
+  // Маша рассказывает о трипе — реальные серии (YouTube Shorts)
+  const vids = [
+  { id: "skWZ53_y6Es", tag: "Серия 01" },
+  { id: "BOdRAAIW4x4", tag: "Серия 02" },
+  { id: "DiXG_ud4K5s", tag: "Серия 03" }];
+
+
+  const [active, setActive] = React.useState(() => ({}));
 
   return (
     <section className="tm-section" id="episodes">
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head">
-            <span className="tm-block-tag">В предыдущих сериях</span>
-            <h2 className="tm-h1" style={{ marginTop: 14 }}>Как это было<br />в прошлом сезоне.</h2>
+            <span className="eyebrow">В предыдущих сериях</span>
           </div>
         </Reveal>
-        <div className="tm-grid-3">
-          {eps.map((e, i) =>
-          <Reveal key={i} delay={i * 130} y={28}>
-              <a className="tm-media" href="#" onClick={(ev) => ev.preventDefault()}>
-                <div className="thumb" style={{ backgroundImage: `url("${e.thumb}")` }} />
-                <div className="play"><PlayIcon /></div>
-                <div className="meta">
-                  <div className="ep">{e.ep}</div>
-                  <div className="ti">{e.ti}</div>
-                </div>
-              </a>
+        <div className="tm-shorts">
+          {vids.map((v, i) =>
+          <Reveal key={i} delay={i * 110} y={28}>
+              <div className="tm-short">
+                {active[i] ?
+                <iframe
+                  src={`https://www.youtube.com/embed/${v.id}?autoplay=1&playsinline=1&rel=0`}
+                  title={v.tag}
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen /> :
+
+
+                <button className="tm-short-face" onClick={() => setActive((a) => ({ ...a, [i]: true }))} aria-label={`Смотреть: ${v.tag}`}>
+                    <span className="thumb" style={{ backgroundImage: `url("https://i.ytimg.com/vi/${v.id}/hqdefault.jpg")` }} />
+                    <span className="tag">{v.tag}</span>
+                    <span className="play">
+                      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 3.5 L16 10 L5 16.5 Z" /></svg>
+                    </span>
+                  </button>
+                }
+              </div>
             </Reveal>
           )}
         </div>
@@ -94,13 +108,10 @@ function TMTestimonials({ images }) {
 }
 
 function TMWhoTravels({ images }) {
-  // Real YouTube Shorts — Маша рассказывает о трипе (3 серии) и отзывы участников, замиксованы.
+  // Реальные отзывы участников (YouTube Shorts)
   const vids = [
-  { id: "skWZ53_y6Es", tag: "Серия 01", kind: "story" },
   { id: "kMlYk1leoHY", tag: "Отзыв", kind: "review" },
-  { id: "BOdRAAIW4x4", tag: "Серия 02", kind: "story" },
   { id: "GGy57vjOIkY", tag: "Отзыв", kind: "review" },
-  { id: "DiXG_ud4K5s", tag: "Серия 03", kind: "story" },
   { id: "ssudbcPZvFE", tag: "Отзыв", kind: "review" }];
 
 
@@ -144,4 +155,79 @@ function TMWhoTravels({ images }) {
 
 }
 
-Object.assign(window, { TMEpisodes, TMTestimonials, TMWhoTravels });
+Object.assign(window, { TMEpisodes, TMTestimonials, TMWhoTravels, TMBlog });
+
+function TMBlog() {
+  // Стена реальных отзывов: скриншоты из соцсетей/мессенджеров + видео-отзывы (YouTube)
+  const items = [
+  { type: "img", src: "images/blog/blog-polli.jpg", alt: "Отзыв @polli_chu — путешествие по Европе" },
+  { type: "img", src: "images/blog/blog-msg-christmas.jpg", alt: "Отзыв об эльзасском рождестве" },
+  { type: "vid", id: "kMlYk1leoHY" },
+  { type: "img", src: "images/blog/blog-lily.jpg", alt: "Отзыв @lily.aspen — тур-сюрприз" },
+  { type: "img", src: "images/blog/blog-msg-plan.jpg", alt: "Отзыв — план передвижений по часам" },
+  { type: "vid", id: "GGy57vjOIkY" },
+  { type: "img", src: "images/blog/blog-maxim.jpg", alt: "Отзыв @maxim_gilyov — Париж" },
+  { type: "img", src: "images/blog/blog-comfort.jpg", alt: "Отзыв об организации поездки" },
+  { type: "vid", id: "ssudbcPZvFE" },
+  { type: "img", src: "images/blog/blog-tikaram.jpg", alt: "Отзыв @t.tikaram — Гранада" },
+  { type: "img", src: "images/blog/blog-msg-moscow.jpg", alt: "Отзыв — вернулись в Москву" },
+  { type: "img", src: "images/blog/blog-msg-italy.jpg", alt: "Отзыв о поездке в Италию" }];
+
+
+  const [active, setActive] = React.useState(() => ({}));
+  const [lightbox, setLightbox] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e) => {if (e.key === "Escape") setLightbox(null);};
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox]);
+
+  return (
+    <section className="tm-section" id="blog">
+      <div className="tm-wrap">
+        <Reveal>
+          <div className="tm-sec-head">
+            <h2 className="tm-h2">Со мной путешествуют</h2>
+          </div>
+        </Reveal>
+        <Reveal delay={120} y={24}>
+          <div className="tm-blog">
+            {items.map((it, i) =>
+            <div className="tm-blog-item" key={i}>
+                {it.type === "img" ?
+              <img src={it.src} alt={it.alt} loading="lazy" onClick={() => setLightbox(it.src)} /> :
+
+              <div className="tm-short tm-blog-video">
+                    {active[i] ?
+                <iframe
+                  src={`https://www.youtube.com/embed/${it.id}?autoplay=1&playsinline=1&rel=0`}
+                  title="Видео-отзыв"
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                  allowFullScreen /> :
+
+                <button className="tm-short-face" onClick={() => setActive((a) => ({ ...a, [i]: true }))} aria-label="Смотреть видео-отзыв">
+                        <span className="thumb" style={{ backgroundImage: `url("https://i.ytimg.com/vi/${it.id}/hqdefault.jpg")` }} />
+                        <span className="tag review">Видео-отзыв</span>
+                        <span className="play">
+                          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 3.5 L16 10 L5 16.5 Z" /></svg>
+                        </span>
+                      </button>
+                }
+                  </div>
+              }
+              </div>
+            )}
+          </div>
+        </Reveal>
+      </div>
+      {lightbox &&
+      <div className="tm-blog-lightbox" onClick={() => setLightbox(null)} role="dialog" aria-modal="true">
+          <img src={lightbox} alt="" />
+        </div>
+      }
+    </section>);
+
+}
