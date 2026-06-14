@@ -15,7 +15,7 @@ function TMFinal({ images }) {
       <div className="tm-final-inner">
         <Reveal delay={140} y={32}>
           <h2 className="tm-display" style={{ fontSize: "clamp(38px, 5.6vw, 88px)" }}>
-            Присоединяйся к самому<br />невероятному путешествию<br />в твоей <span className="gold-b">жизни.</span>
+            Присоединяйся к самому<br /><span className="gold-b">невероятному</span> путешествию<br />в твоей жизни.
           </h2>
         </Reveal>
         <Reveal delay={320}>

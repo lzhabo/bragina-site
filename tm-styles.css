@@ -623,7 +623,6 @@ img { max-width: 100%; display: block; }
 /* ===== Блог — стена отзывов (masonry: скриншоты + видео) ===== */
 .tm-blog { columns: 3; column-gap: 20px; }
 @media (max-width: 920px) { .tm-blog { columns: 2; } }
-@media (max-width: 560px) { .tm-blog { columns: 1; } }
 .tm-blog-item { break-inside: avoid; margin: 0 0 20px; }
 .tm-blog-item > img {
   width: 100%; display: block; border-radius: var(--r-md);
@@ -643,6 +642,26 @@ img { max-width: 100%; display: block; }
   border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
 }
 @keyframes tmBlogFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* mobile: горизонтальный скролл вместо высокой стены */
+@media (max-width: 640px) {
+  .tm-blog {
+    columns: auto; display: flex; gap: 14px;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin; scrollbar-color: var(--gold-deep) transparent;
+    margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter) 14px;
+  }
+  .tm-blog::-webkit-scrollbar { height: 6px; }
+  .tm-blog::-webkit-scrollbar-track { background: var(--line); border-radius: 999px; }
+  .tm-blog::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 999px; }
+  .tm-blog-item {
+    flex: 0 0 74%; margin: 0; height: 440px; position: relative; overflow: hidden;
+    border-radius: var(--r-md); scroll-snap-align: start;
+  }
+  .tm-blog-item > img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: var(--r-md); }
+  .tm-blog .tm-blog-video { height: 100%; aspect-ratio: auto; }
+}
 
 /* ============ HOW IT WORKS TIMELINE ============ */
 .tm-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
