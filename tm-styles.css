@@ -563,6 +563,34 @@ img { max-width: 100%; display: block; }
 .tm-quote-card .who .rl { font-size: 12px; color: var(--text-faint); }
 .tm-stars { color: var(--gold); font-size: 13px; letter-spacing: 2px; }
 
+/* ===== testimonials carousel (видео + текст, горизонтальный скролл, единая высота) ===== */
+.tm-treel {
+  display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; scrollbar-color: var(--gold-deep) transparent;
+  margin: 0 calc(var(--gutter) * -1); padding: 4px var(--gutter) 18px;
+}
+.tm-treel::-webkit-scrollbar { height: 6px; }
+.tm-treel::-webkit-scrollbar-track { background: var(--line); border-radius: 999px; }
+.tm-treel::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 999px; }
+.tm-treel > * { flex: 0 0 auto; scroll-snap-align: start; }
+.tm-treel .tm-short { width: 281px; height: 500px; aspect-ratio: auto; }
+.tm-tcard-text {
+  width: 384px; height: 500px; display: flex; flex-direction: column; gap: 14px;
+  padding: 30px 32px; border: 1px solid var(--line-strong); border-radius: var(--r-md);
+  background: linear-gradient(160deg, var(--surface-2), var(--surface)); overflow: hidden;
+}
+.tm-tcard-text .q { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 11px; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, #000 90%, transparent); mask-image: linear-gradient(180deg, #000 90%, transparent); }
+.tm-tcard-text .q::-webkit-scrollbar { display: none; }
+.tm-tcard-text .q p { margin: 0; font-size: 14.5px; line-height: 1.52; color: var(--text); text-wrap: pretty; }
+.tm-tcard-text .who { display: flex; align-items: center; gap: 14px; }
+.tm-tcard-text .who .nm { font-size: 15px; font-weight: 600; color: var(--text); }
+.tm-tcard-text .who .rl { font-size: 12px; color: var(--text-faint); }
+@media (max-width: 600px) {
+  .tm-treel .tm-short { width: 248px; height: 440px; }
+  .tm-tcard-text { width: 300px; height: 440px; padding: 26px 24px; }
+}
+
 /* ===== YouTube Shorts shelf (Со мной путешествуют) — horizontal scroll ===== */
 .tm-shorts {
   display: grid;
@@ -630,16 +658,38 @@ img { max-width: 100%; display: block; }
   transition: transform .4s var(--ease), border-color .4s var(--ease);
 }
 .tm-blog-item > img:hover { transform: translateY(-3px); border-color: var(--gold); }
-.tm-blog .tm-blog-video { width: 100%; }
 .tm-blog-lightbox {
   position: fixed; inset: 0; z-index: 9500; cursor: zoom-out;
-  background: rgba(7, 17, 12, .93); backdrop-filter: blur(8px);
+  background: rgba(7, 17, 12, .94); backdrop-filter: blur(8px);
   display: flex; align-items: center; justify-content: center; padding: 32px;
   animation: tmBlogFade .25s ease;
 }
-.tm-blog-lightbox img {
-  max-width: min(560px, 92vw); max-height: 92vh; object-fit: contain;
+.tm-blog-lightbox .lb-figure { margin: 0; cursor: default; display: flex; }
+.tm-blog-lightbox .lb-figure img {
+  max-width: min(520px, 86vw); max-height: 90vh; object-fit: contain;
   border-radius: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+}
+.tm-blog-lightbox .lb-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 56px; height: 56px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .25);
+  color: #fff; font-size: 30px; line-height: 1; cursor: pointer; padding: 0 0 4px;
+  transition: background .2s var(--ease); backdrop-filter: blur(4px);
+}
+.tm-blog-lightbox .lb-nav:hover { background: rgba(255, 255, 255, .22); }
+.tm-blog-lightbox .lb-nav.prev { left: 22px; }
+.tm-blog-lightbox .lb-nav.next { right: 22px; }
+.tm-blog-lightbox .lb-close {
+  position: absolute; top: 22px; right: 22px;
+  width: 44px; height: 44px; border-radius: 999px;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .25);
+  color: #fff; font-size: 16px; cursor: pointer; transition: background .2s var(--ease);
+}
+.tm-blog-lightbox .lb-close:hover { background: rgba(255, 255, 255, .22); }
+.tm-blog-lightbox .lb-count {
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+  color: rgba(255, 255, 255, .72); font-size: 14px; letter-spacing: .12em;
 }
 @keyframes tmBlogFade { from { opacity: 0; } to { opacity: 1; } }
 
@@ -656,11 +706,13 @@ img { max-width: 100%; display: block; }
   .tm-blog::-webkit-scrollbar-track { background: var(--line); border-radius: 999px; }
   .tm-blog::-webkit-scrollbar-thumb { background: var(--gold-deep); border-radius: 999px; }
   .tm-blog-item {
-    flex: 0 0 74%; margin: 0; height: 440px; position: relative; overflow: hidden;
+    flex: 0 0 78%; margin: 0; align-self: flex-start;
     border-radius: var(--r-md); scroll-snap-align: start;
   }
-  .tm-blog-item > img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: var(--r-md); }
-  .tm-blog .tm-blog-video { height: 100%; aspect-ratio: auto; }
+  .tm-blog-item > img { width: 100%; height: auto; display: block; border-radius: var(--r-md); }
+  .tm-blog-lightbox .lb-nav.prev { left: 8px; }
+  .tm-blog-lightbox .lb-nav.next { right: 8px; }
+  .tm-blog-lightbox .lb-nav { width: 44px; height: 44px; font-size: 24px; }
 }
 
 /* ============ HOW IT WORKS TIMELINE ============ */

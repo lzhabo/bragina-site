@@ -52,7 +52,6 @@ function TMApp() {
       <TMHero images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMDetails />
-      <TMForm />
       <div className="tm-divider" />
       <TMStory />
       <div className="tm-divider" />
@@ -74,23 +73,16 @@ function TMApp() {
       <TMFinal images={TM_IMAGES} />
       <TMFooter logo={TM_IMAGES.logo} />
 
-      {t.grainOn && <div className="tm-grain" />}
-      {t.vignetteOn && <div className="tm-vignette" />}
-
       <TweaksPanel title="Настройки">
         <TweakSection label="Акцент" />
         <TweakColor label="Цвет"
         value={t.accent}
         options={["#C8A877", "#B98E5A", "#6FA888", "#9A8FB0", "#C77F6A"]}
         onChange={(v) => setTweak("accent", v)} />
-        <TweakSection label="Атмосфера" />
-        <TweakToggle label="Плёночное зерно" value={t.grainOn} onChange={(v) => setTweak("grainOn", v)} />
-        <TweakToggle label="Виньетка" value={t.vignetteOn} onChange={(v) => setTweak("vignetteOn", v)} />
         <TweakSection label="Навигация" />
         <TweakButton label="Наверх" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} />
         <TweakButton label="Маршрут" onClick={() => document.getElementById("route")?.scrollIntoView({ behavior: "smooth" })} />
         <TweakButton label="Стоимость" onClick={() => document.getElementById("price")?.scrollIntoView({ behavior: "smooth" })} />
-        <TweakButton label="Форма" onClick={() => document.getElementById("form")?.scrollIntoView({ behavior: "smooth" })} />
       </TweaksPanel>
 
       <style>{`

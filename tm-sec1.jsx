@@ -1,4 +1,7 @@
-// tm-sec1.jsx — Nav, Hero, Trip details (plashki), Participant form
+// tm-sec1.jsx — Nav, Hero, Trip details (plashki)
+
+// единая ссылка призыва к действию → WhatsApp Маши с готовым сообщением
+window.TM_WA = "https://wa.me/79655004984?text=" + encodeURIComponent("Привет, Маша! Хочу участвовать в сюрприз-туре! Вышли мне пожалуйста анкету участника.");
 
 function TMNav({ logo }) {
   const y = useScrollY();
@@ -13,7 +16,7 @@ function TMNav({ logo }) {
         <a className="hide-sm" href="#process">Как это устроено</a>
         <a className="hide-sm" href="#price">Стоимость</a>
         <a className="hide-sm" href="#about">Кто я</a>
-        <a className="btn btn-ghost nav-cta" href="#form" style={{ padding: "11px 20px" }}>Я в теме <span className="arr">→</span></a>
+        <a className="btn btn-ghost nav-cta" href={window.TM_WA} target="_blank" rel="noopener noreferrer" style={{ padding: "11px 20px" }}>Я в теме <span className="arr">→</span></a>
       </div>
     </nav>);
 
@@ -58,7 +61,7 @@ function TMHero({ images }) {
 
         <Reveal delay={680} duration={900} y={16}>
           <div className="tm-hero-cta">
-            <a className="btn btn-primary btn-lg" href="#form">Я в теме <span className="arr">→</span></a>
+            <a className="btn btn-primary btn-lg" href={window.TM_WA} target="_blank" rel="noopener noreferrer">Я в теме <span className="arr">→</span></a>
             <a className="btn btn-ghost btn-lg" href="#route">Посмотреть маршрут</a>
           </div>
         </Reveal>
@@ -103,79 +106,14 @@ function TMDetails() {
 
 }
 
-function TMForm() {
-  const [phone, setPhone] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [err, setErr] = React.useState({});
-  const [sent, setSent] = React.useState(false);
-
-  const submit = (e) => {
-    e.preventDefault();
-    const next = {};
-    if (phone.replace(/\D/g, "").length < 10) next.phone = "Укажите корректный телефон";
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) next.email = "Укажите корректный e-mail";
-    setErr(next);
-    if (Object.keys(next).length === 0) {
-      const msg = "Привет, Маша! Хочу участвовать в сюрприз-туре! Вышли мне пожалуйста анкету участника.";
-      window.open("https://wa.me/79655004984?text=" + encodeURIComponent(msg), "_blank", "noopener");
-      setSent(true);
-    }
-  };
-
-  return (
-    <section className="tm-section tight" id="form">
-      <div className="tm-narrow">
-        <Reveal>
-          <div className="tm-sec-head center">
-            <span className="eyebrow">Форма участника</span>
-            <h2 className="tm-h2">Оставьте свои контакты,<br />чтобы узнать подробности</h2>
-          </div>
-        </Reveal>
-
-        <Reveal delay={150} y={28}>
-          <div className="tm-form-card">
-            {sent ?
-            <div style={{ textAlign: "center", padding: "20px 0" }}>
-                <div style={{ width: 56, height: 56, margin: "0 auto 20px", borderRadius: "50%", border: "1px solid var(--gold)", display: "grid", placeItems: "center", color: "var(--gold)", fontSize: 24 }}>✓</div>
-                <h3 className="tm-h3" style={{ marginBottom: 10 }}>Открываю WhatsApp…</h3>
-                <p className="tm-body" style={{ margin: 0 }}>Отправь готовое сообщение — и я пришлю тебе анкету участника лично. Если чат не открылся, напиши мне на +7 965 500 49 84.</p>
-              </div> :
-
-            <form className="tm-form-grid" onSubmit={submit} noValidate>
-                <div className="tm-field">
-                  <label htmlFor="ph">Телефон</label>
-                  <input id="ph" className={"tm-input" + (err.phone ? " err" : "")} type="tel"
-                placeholder="+7 ___ ___ __ __" value={phone}
-                onChange={(e) => setPhone(e.target.value)} />
-                  <span className="hint">{err.phone || ""}</span>
-                </div>
-                <div className="tm-field">
-                  <label htmlFor="em">Email</label>
-                  <input id="em" className={"tm-input" + (err.email ? " err" : "")} type="email"
-                placeholder="you@email.com" value={email}
-                onChange={(e) => setEmail(e.target.value)} />
-                  <span className="hint">{err.email || ""}</span>
-                </div>
-                <button className="btn btn-primary tm-form-submit" type="submit" style={{ height: 52 }}>
-                  Я в теме <span className="arr">→</span>
-                </button>
-              </form>
-            }
-          </div>
-        </Reveal>
-      </div>
-    </section>);
-
-}
-
 function TMFloatingCTA() {
   const y = useScrollY();
   const show = y > 720;
   return (
-    <a className={"tm-fab" + (show ? " show" : "")} href="#form" aria-label="Я в теме">
+    <a className={"tm-fab" + (show ? " show" : "")} href={window.TM_WA} target="_blank" rel="noopener noreferrer" aria-label="Я в теме">
       Я в теме <span className="arr">→</span>
     </a>);
 
 }
 
-Object.assign(window, { TMNav, TMHero, TMDetails, TMForm, TMFloatingCTA });
+Object.assign(window, { TMNav, TMHero, TMDetails, TMFloatingCTA });

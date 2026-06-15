@@ -25,7 +25,7 @@ function TMFinal({ images }) {
         </Reveal>
         <Reveal delay={460}>
           <div style={{ marginTop: 44 }}>
-            <a className="btn btn-primary btn-lg" href="#form">Я еду! <span className="arr">→</span></a>
+            <a className="btn btn-primary btn-lg" href={window.TM_WA} target="_blank" rel="noopener noreferrer">Я еду! <span className="arr">→</span></a>
           </div>
         </Reveal>
       </div>
