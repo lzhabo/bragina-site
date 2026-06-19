@@ -1,24 +1,42 @@
 // tm-sec2.jsx — Story/mystery, Concept big-quote, Route (blur reveal unlock)
 
-function TMStory() {
+function TMStory({ images = {} }) {
+  const [zoom, setZoom] = React.useState(false);
   return (
     <section className="tm-section tm-story" id="story">
       <div className="tm-wrap">
-        <div className="tm-twocol tm-twocol--legend">
-          <Reveal>
-            <div>
-              <h2 className="tm-h1">Есть круг людей,<br />которые хранят<br /><span className="gold-b">места силы.</span></h2>
-            </div>
+        <Reveal y={22}>
+          <header className="tm-story-head">
+            <span className="eyebrow">Альтиплано · Анды</span>
+            <h2 className="tm-h1">Народ <span className="gold-b">аймара</span></h2>
+          </header>
+        </Reveal>
+        <div className="tm-story-feature">
+          <Reveal y={28}>
+            <figure className="tm-story-photo" onClick={() => setZoom(true)} title="Нажмите, чтобы рассмотреть">
+              <img src={images.aymara} alt="Народ аймара в Андах" loading="lazy" />
+              <span className="tm-story-zoomhint" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.65" y2="16.65" /><line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" /></svg>
+                Рассмотреть
+              </span>
+              <figcaption>Народ аймара · Альтиплано Анд</figcaption>
+            </figure>
           </Reveal>
-          <Reveal delay={180} y={28}>
-            <div className="tm-story-card tm-narrative">
-              <p>Существует негласный орден людей, которые из поколения в поколение хранят места силы на планете. Не храмы, не города, а места животворящие, где мир ещё не тронут.</p>
-              <p>Раз в несколько десятилетий они выбирают новых хранителей и ведут их по маршруту посвящения.</p>
-              <p>Вы получили <span className="accent">приглашение</span>. Маршрут открывается шаг за шагом.</p>
+          <Reveal delay={160} y={28}>
+            <div className="tm-narrative tm-story-body">
+              <p>Высоко в Андах живёт народ аймара. Тысячи лет они берегут священное знание о местах силы: точках на земле, где мир сохраняет свой первозданный облик. Это знание передаётся от хранителя к хранителю. Раз в несколько десятилетий аймара берут с собой избранных и ведут их по маршруту посвящения.</p>
+              <p className="tm-story-accent">И именно тебе предстоит пройти по следам древнего народа и прочувствовать сакральную силу природы.</p>
             </div>
           </Reveal>
         </div>
       </div>
+      {zoom &&
+      <div className="tm-lightbox" onClick={() => setZoom(false)}>
+          <button className="tm-lightbox-close" aria-label="Закрыть" onClick={() => setZoom(false)}>×</button>
+          <img src={images.aymara} alt="Народ аймара в Андах" onClick={(e) => e.stopPropagation()} />
+          <span className="tm-lightbox-cap">Народ аймара · Альтиплано Анд</span>
+        </div>
+      }
     </section>);
 
 }
@@ -51,12 +69,12 @@ function TMRoute({ images = {} }) {
   const [locked, setLocked] = React.useState(true);
 
   const items = [
-  { t: "Полёт на вертолёте", d: "Над местами, куда не доезжают экскурсии.", img: images.rHeli, pos: "center 25%" },
-  { t: "Квест с артефактами", d: "Загадки, которые ведут к следующей точке.", img: images.rQuest, pos: "center 80%" },
-  { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.rSea, pos: "center 46%" },
-  { t: "Флора и фауна", d: "Дикая природа без барьеров и толпы.", img: images.rFauna, pos: "center 40%" },
-  { t: "Культура и люди", d: "Жизнь местных, а не витрина для туристов.", img: images.rPeople, pos: "center 50%" },
-  { t: "Неочевидные маршруты", d: "Составлены вместе с локальными экспертами.", img: images.rOffbeat, pos: "center 52%" }];
+  { t: "Полёт на вертолёте", d: "Чтобы увидеть всю красоту с высоты птичьего полёта.", img: images.rHeli, pos: "center 35%" },
+  { t: "Квест", d: "Загадки, которые приведут вас к следующей точке.", img: images.rQuest, pos: "center center" },
+  { t: "Морские прогулки", d: "Тихие бухты и встречи с океаном.", img: images.rSea, pos: "center 50%" },
+  { t: "Знакомство с флорой и фауной", d: "Национальные парки и животные в своей естественной среде обитания.", img: images.rFauna, pos: "center 45%" },
+  { t: "Культура и люди", d: "Аутентичный опыт и прикосновение к местным обычаям.", img: images.rPeople, pos: "center 62%" },
+  { t: "Неочевидные маршруты", d: "Составленные вместе с местными экспертами.", img: images.rOffbeat, pos: "center 50%" }];
 
   const leftItems = items.slice(0, 3);
   const rightItems = items.slice(3);
@@ -81,16 +99,16 @@ function TMRoute({ images = {} }) {
   [241, 629], // 2 · left-bottom — Chile / Patagonia
   [262, 513], // 3 · right-top   — Venezuela / Guyana
   [285, 566], // 4 · right-mid   — Brazil (east)
-  [263, 648]];// 5 · right-bottom — Argentina
+  [263, 648]]; // 5 · right-bottom — Argentina
 
 
   // organic, hand-drawn-feeling leader: a bowed cubic whose curvature is proportional to
   // the span (so it stays graceful at every width) with a deterministic per-card lean.
   const connect = (sx, sy, ex, ey, seed) => {
-    const dx = ex - sx, dy = ey - sy;
+    const dx = ex - sx,dy = ey - sy;
     const dist = Math.hypot(dx, dy) || 1;
-    const px = -dy / dist, py = dx / dist; // unit perpendicular
-    const r1 = rnd(seed, 1), r2 = rnd(seed, 2);
+    const px = -dy / dist,py = dx / dist; // unit perpendicular
+    const r1 = rnd(seed, 1),r2 = rnd(seed, 2);
     const bow = dist * (0.10 + r1 * 0.13) * (r2 > 0.5 ? 1 : -1);
     const c1x = sx + dx * 0.36 + px * bow;
     const c1y = sy + dy * 0.36 + py * bow;
@@ -100,13 +118,13 @@ function TMRoute({ images = {} }) {
   };
 
   const compute = React.useCallback(() => {
-    const stage = stageRef.current, map = mapRef.current;
+    const stage = stageRef.current,map = mapRef.current;
     if (!stage || !map) return;
     const sb = stage.getBoundingClientRect();
-    if (sb.width < 760) { setPaths([]); setDim({ w: sb.width, h: sb.height }); return; }
+    if (sb.width < 760) {setPaths([]);setDim({ w: sb.width, h: sb.height });return;}
     const mb = (map.querySelector("svg") || map).getBoundingClientRect();
-    const mapLeft = mb.left - sb.left, mapTop = mb.top - sb.top;
-    const mapW = mb.width, mapH = mb.height;
+    const mapLeft = mb.left - sb.left,mapTop = mb.top - sb.top;
+    const mapW = mb.width,mapH = mb.height;
     // map a point in the map's SVG viewBox coords → stage pixel coords (tracks the map at any width)
     const toStage = (vx, vy) => ({
       x: mapLeft + (vx - MAP_VB.x) / MAP_VB.w * mapW,
@@ -154,8 +172,8 @@ function TMRoute({ images = {} }) {
       <div className="tm-wrap">
         <Reveal>
           <div className="tm-sec-head center">
-            <span className="eyebrow">Маршрут</span>
-            <p className="tm-rv-lead">Ты можешь оставить план тайной&nbsp;— или разблокировать экспириенс. Всё заблюрено: нажми, чтобы узнать, какой опыт тебя ждёт.</p>
+            <h2 className="tm-h2">Что тебя ждёт</h2>
+            <p className="tm-rv-lead">Ты можешь оставить план тайной&nbsp;— или разблокировать экспириенс.</p>
           </div>
         </Reveal>
 
@@ -191,20 +209,7 @@ function TMRoute({ images = {} }) {
         </Reveal>
 
         <div className="tm-rv-foot">
-          <div className="tm-unlock-bar">
-            <span className="txt">
-              {locked ?
-              "Шесть впечатлений на маршруте — пока скрыты. Открой, если готов к спойлерам." :
-              "Маршрут раскрыт. Но самое интересное всё равно случится на месте."}
-            </span>
-            <button
-              className={"btn " + (locked ? "btn-primary" : "btn-ghost")}
-              onClick={(e) => {e.stopPropagation();setLocked((v) => !v);}}>
-
-              {locked ? <>Разблокировать маршрут <span className="arr">→</span></> : "Скрыть снова"}
-            </button>
-          </div>
-          <p className="tm-map-cap">Латинская Америка — наш регион. Точные точки маршрута остаются сюрпризом до старта.</p>
+          <a className="btn btn-primary btn-lg" href={window.TM_WA} target="_blank" rel="noopener noreferrer">Запишите меня <span className="arr">→</span></a>
         </div>
       </div>
     </section>);
@@ -222,16 +227,15 @@ function TMAncestors() {
         </Parallax>
       </div>
       <div className="tm-wrap" style={{ position: "relative", zIndex: 5 }}>
-        <div className="tm-twocol tm-twocol--zachem">
+        <div className="tm-zachem">
           <Reveal>
-            <div>
-              <h2 className="tm-h2">Сюрприз-трип&nbsp;— это возможность путешествовать <span className="gold-b">как наши предки.</span></h2>
-            </div>
+            <h2 className="tm-h2 tm-zachem-title">Сюрприз-трип&nbsp;— это возможность путешествовать<br /><span className="gold-b">как наши предки.</span></h2>
           </Reveal>
           <Reveal delay={180} y={28}>
-            <div className="tm-story-card tm-narrative">
-              <p>Наши предки путешествовали, не зная, что впереди. Сейчас у нас есть Google&nbsp;Maps и Mastercard.</p>
-              <p>Когда был последний раз, когда ты отправился в приключение? Пакуй чемодан&nbsp;— а я возьму на себя всё остальное.</p>
+            <div className="tm-narrative tm-zachem-body">
+              <p className="tm-zachem-lead">Когда-то дорога была неизвестностью. Сейчас же мы привыкли держать все под контролем: планировать путешествия заранее, идти по четко продуманному маршруту.</p>
+              <p>Я предлагаю тебе альтернативную реальность&nbsp;— настоящее приключение, где ты, как <span className="gold-b">главный герой из книг Жюля&nbsp;Верна</span>, исследуешь новые земли и удивляешься метаморфозам своего пути.</p>
+              <p className="tm-zachem-close">А я, как <em>автор этого шедевра</em>, беру на себя все организационные детали и наполняю этот волшебный путь смыслами.</p>
             </div>
           </Reveal>
         </div>

@@ -18,8 +18,25 @@ function TMEpisodes() {
     <section className="tm-section" id="episodes">
       <div className="tm-wrap">
         <Reveal>
-          <div className="tm-sec-head">
-            <span className="eyebrow">В предыдущих сериях</span>
+          <div className="tm-sec-head center">
+            <h2 className="tm-h2">История создания</h2>
+          </div>
+        </Reveal>
+        <Reveal delay={120} y={24}>
+          <p className="tm-episodes-intro">
+            В апреле 2026 года я организовала сюрприз-трип для своих постоянных туристов.
+            Изначально они думали, что едут в Малайзию, а по факту оказались на
+            <span className="gold-b"> водопаде Виктория в Зимбабве</span>. Потом сафари в Ботсване,
+            полёт на вертолёте в Замбии, древнейшая пустыня Намибии и финал&nbsp;— остров Маврикий:
+            глубоководная рыбалка и плаванье с китами!!! Каждый день на протяжении всего тура
+            я получала восторженные отзывы и кайфовала от работы. Я просто обожаю делать сюрпризы,
+            и в этом моё проявление любви и заботы. Так и родилась идея собрать компанию
+            единомышленников для нового Сюрприз-трипа.
+          </p>
+        </Reveal>
+        <Reveal delay={80}>
+          <div className="tm-sec-head center tm-shorts-head">
+            <h3 className="tm-h3">Что было в Африке</h3>
           </div>
         </Reveal>
         <div className="tm-shorts">
@@ -78,7 +95,7 @@ function TMTestimonials({ images }) {
     <section className="tm-section tight" id="testimonials">
       <div className="tm-wrap">
         <Reveal>
-          <div className="tm-sec-head">
+          <div className="tm-sec-head center">
             <h2 className="tm-h2">Отзывы участников</h2>
           </div>
         </Reveal>
@@ -217,7 +234,7 @@ function TMBlog() {
     <section className="tm-section" id="blog">
       <div className="tm-wrap">
         <Reveal>
-          <div className="tm-sec-head">
+          <div className="tm-sec-head center">
             <h2 className="tm-h2">Со мной путешествуют</h2>
           </div>
         </Reveal>

@@ -41,20 +41,14 @@ function TMHero({ images }) {
 
       <div className="tm-hero-inner">
         <Reveal duration={1000} y={16}>
-          <div className="eyebrow" style={{ display: "flex", justifyContent: "center", gap: 14, alignItems: "center" }}>
-            <span style={{ width: 30, height: 1, background: "var(--gold)" }} />
-            Авторское путешествие · Сезон II
-            <span style={{ width: 30, height: 1, background: "var(--gold)" }} />
-          </div>
         </Reveal>
 
         <Reveal delay={180} duration={1200} y={36}>
-          <h1 className="tm-display">Сюрприз&nbsp;трип</h1>
+          <h1 className="tm-display">Сюрприз&nbsp;трип<span className="tm-display-sub">по Латинской Америке</span></h1>
         </Reveal>
 
         <Reveal delay={460} duration={1000} y={20}>
           <div className="tm-hero-subs">
-            <span className="s2">Второй сезон · Латинская Америка</span>
             <span className="s3">Тревел-квест, где маршрут открывается по&nbsp;ходу путешествия.</span>
           </div>
         </Reveal>
@@ -76,29 +70,41 @@ function TMHero({ images }) {
 }
 
 function TMDetails() {
-  const plashki = [
-  { k: "Даты", v: "25 янв — 8 фев", sub: "2027 года" },
-  { k: "Продолжительность", v: "15 дней", sub: "" },
-  { k: "Страны", v: "2+", sub: "" },
-  { k: "Группа", v: "до 13", sub: "человек" },
-  { k: "Уровень", v: "Лёгкий", sub: "" }];
+  const stats = [
+  { lbl: "Страны", val: "2+", sub: "маршрут — сюрприз" },
+  { lbl: "Группа", val: "до 13", sub: "человек" },
+  { lbl: "Свободно", val: "4", sub: "места осталось", acc: true },
+  { lbl: "Уровень", val: "Лёгкий", sub: "без спецподготовки" }];
 
   return (
     <section className="tm-section tight" id="details">
       <div className="tm-wrap">
-        <Reveal>
-          <div className="tm-sec-head">
-            <span className="eyebrow">Детали тура</span>
+        <Reveal delay={80} y={20}>
+          <div className="tm-trip-head">
+            <span className="eyebrow">Коротко о туре</span>
           </div>
         </Reveal>
-        <Reveal delay={150} y={28}>
-          <div className="tm-plashki">
-            {plashki.map((p) =>
-            <div className="tm-plashka" key={p.k}>
-                <div className="k">{p.k}</div>
-                <div className="v">{p.v}<small>{p.sub}</small></div>
+        <Reveal delay={140} y={28}>
+          <div className="tm-trip">
+            <div className="tm-trip-feature">
+              <span className="tm-stat-lbl">Даты путешествия</span>
+              <div className="tm-trip-date">
+                25 января — 8 февраля<br /><span className="tm-trip-year">2027 года</span>
               </div>
-            )}
+              <div className="tm-trip-pills">
+                <span className="tm-pill"><b>15</b> дней в пути</span>
+                <span className="tm-pill">Латинская Америка</span>
+              </div>
+            </div>
+            <div className="tm-trip-stats">
+              {stats.map((s) =>
+              <div className="tm-stat" key={s.lbl}>
+                  <span className="tm-stat-lbl">{s.lbl}</span>
+                  <span className={"tm-stat-val" + (s.acc ? " acc" : "")}>{s.val}</span>
+                  <span className="tm-stat-sub">{s.sub}</span>
+                </div>
+              )}
+            </div>
           </div>
         </Reveal>
       </div>

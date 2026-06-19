@@ -14,8 +14,8 @@ function TMFinal({ images }) {
       </div>
       <div className="tm-final-inner">
         <Reveal delay={140} y={32}>
-          <h2 className="tm-display" style={{ fontSize: "clamp(38px, 5.6vw, 88px)" }}>
-            Присоединяйся к самому<br /><span className="gold-b">невероятному</span> путешествию<br />в твоей жизни.
+          <h2 className="tm-display" style={{ fontSize: "clamp(34px, 4.6vw, 64px)", lineHeight: 1.1, textWrap: "balance", maxWidth: "min(820px, 92%)", marginLeft: "auto", marginRight: "auto" }}>
+            Присоединяйся к самому <span className="gold-b">невероятному</span> путешествию в твоей жизни.
           </h2>
         </Reveal>
         <Reveal delay={320}>
@@ -45,9 +45,6 @@ function TMFooter({ logo }) {
           <a className="tm-logo" href="#top" style={{ marginBottom: 16 }}>
             <img className="tm-logo-img footer" src={logo || "images/logo.png"} alt="Travel Mary" />
           </a>
-          <p className="tm-small" style={{ marginTop: 16 }}>
-            Авторские путешествия в формате сюрприз-трип. Маршрут — тайна, эмоции — легенда.
-          </p>
         </div>
         <div className="tm-footer-social" style={{ textAlign: "right" }}>
           <div className="eyebrow" style={{ marginBottom: 16 }}>Социальные сети</div>

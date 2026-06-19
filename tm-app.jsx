@@ -27,6 +27,8 @@ const TM_IMAGES = {
   rFauna: R.rFauna || "images/route-fauna.jpg",
   rPeople: R.rPeople || "images/route-people.jpg",
   rOffbeat: R.rOffbeat || "images/route-offbeat.jpg",
+  // aymara people — story
+  aymara: R.aymara || "images/aymara.png",
   // about — Masha
   masha: R.masha || "images/masha-portrait.jpg",
   // logo
@@ -53,11 +55,13 @@ function TMApp() {
       <div className="tm-divider" />
       <TMDetails />
       <div className="tm-divider" />
-      <TMStory />
+      <TMStory images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMRoute images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMAncestors />
+      <div className="tm-divider" />
+      <TMAbout images={TM_IMAGES} />
       <div className="tm-divider" />
       <TMEpisodes />
       <div className="tm-divider" />
@@ -68,7 +72,6 @@ function TMApp() {
       <div className="tm-divider" />
       <TMBlog />
       <div className="tm-divider" />
-      <TMAbout images={TM_IMAGES} />
       <TMFaq />
       <TMFinal images={TM_IMAGES} />
       <TMFooter logo={TM_IMAGES.logo} />
