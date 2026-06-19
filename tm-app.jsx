@@ -22,7 +22,7 @@ const TM_IMAGES = {
   alex: R.alex || "images/alexander.jpeg",
   damir: R.damir || "images/damir.jpeg",
   rHeli: R.rHeli || "images/route-heli.jpg",
-  rQuest: R.rQuest || "images/route-quest-hd.jpg",
+  rQuest: R.rQuest || "images/route-quest.jpg",
   rSea: R.rSea || "images/route-sea.png",
   rFauna: R.rFauna || "images/route-fauna.jpg",
   rPeople: R.rPeople || "images/route-people.jpg",
