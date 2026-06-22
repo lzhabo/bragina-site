@@ -380,6 +380,7 @@ img { max-width: 100%; display: block; }
 }
 .tm-stat-val.acc { color: var(--gold-bright); }
 .tm-stat-sub { font-size: 14px; color: var(--text-dim); }
+.tm-stat-note { display: block; margin-top: 6px; font-size: 13px; font-weight: 600; color: var(--gold-bright); }
 
 @media (max-width: 860px) {
   .tm-trip { grid-template-columns: 1fr; }

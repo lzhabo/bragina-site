@@ -14,7 +14,7 @@ function TMFinal({ images }) {
       </div>
       <div className="tm-final-inner">
         <Reveal delay={140} y={32}>
-          <h2 className="tm-display" style={{ fontSize: "clamp(34px, 4.6vw, 64px)", lineHeight: 1.1, textWrap: "balance", maxWidth: "min(820px, 92%)", marginLeft: "auto", marginRight: "auto" }}>
+          <h2 className="tm-display" style={{ fontSize: "clamp(28px, 3.4vw, 48px)", lineHeight: 1.12, textWrap: "balance", maxWidth: "min(900px, 94%)", marginLeft: "auto", marginRight: "auto" }}>
             Присоединяйся к самому <span className="gold-b">невероятному</span> путешествию в твоей жизни.
           </h2>
         </Reveal>

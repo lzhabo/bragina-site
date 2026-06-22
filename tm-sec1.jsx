@@ -71,10 +71,10 @@ function TMHero({ images }) {
 
 function TMDetails() {
   const stats = [
-  { lbl: "Страны", val: "2+", sub: "маршрут — сюрприз" },
-  { lbl: "Группа", val: "до 13", sub: "человек" },
-  { lbl: "Свободно", val: "4", sub: "места осталось", acc: true },
-  { lbl: "Уровень", val: "Лёгкий", sub: "без спецподготовки" }];
+  { lbl: "Продолжительность", val: "15", sub: "дней" },
+  { lbl: "Страны", val: "2+", sub: "страны" },
+  { lbl: "Группа", val: "до 13", sub: "человек", note: "осталось 4 места" },
+  { lbl: "Уровень", val: "Лёгкий", sub: "" }];
 
   return (
     <section className="tm-section tight" id="details">
@@ -87,13 +87,9 @@ function TMDetails() {
         <Reveal delay={140} y={28}>
           <div className="tm-trip">
             <div className="tm-trip-feature">
-              <span className="tm-stat-lbl">Даты путешествия</span>
+              <span className="tm-stat-lbl">Даты</span>
               <div className="tm-trip-date">
                 25 января — 8 февраля<br /><span className="tm-trip-year">2027 года</span>
-              </div>
-              <div className="tm-trip-pills">
-                <span className="tm-pill"><b>15</b> дней в пути</span>
-                <span className="tm-pill">Латинская Америка</span>
               </div>
             </div>
             <div className="tm-trip-stats">
@@ -101,7 +97,8 @@ function TMDetails() {
               <div className="tm-stat" key={s.lbl}>
                   <span className="tm-stat-lbl">{s.lbl}</span>
                   <span className={"tm-stat-val" + (s.acc ? " acc" : "")}>{s.val}</span>
-                  <span className="tm-stat-sub">{s.sub}</span>
+                  {s.sub && <span className="tm-stat-sub">{s.sub}</span>}
+                  {s.note && <span className="tm-stat-note">{s.note}</span>}
                 </div>
               )}
             </div>

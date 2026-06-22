@@ -5,12 +5,6 @@ function TMStory({ images = {} }) {
   return (
     <section className="tm-section tm-story" id="story">
       <div className="tm-wrap">
-        <Reveal y={22}>
-          <header className="tm-story-head">
-            <span className="eyebrow">Альтиплано · Анды</span>
-            <h2 className="tm-h1">Народ <span className="gold-b">аймара</span></h2>
-          </header>
-        </Reveal>
         <div className="tm-story-feature">
           <Reveal y={28}>
             <figure className="tm-story-photo" onClick={() => setZoom(true)} title="Нажмите, чтобы рассмотреть">
